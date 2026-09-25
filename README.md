@@ -2,7 +2,7 @@
 
 <img src="images/app-icon.png" width="128" height="128" alt="GitStreak Icon" />
 
-# GitStreak 🔥
+# GitStreak 
 
 ### **Make your coding habit visible on your macOS desktop.**
 
