@@ -33,12 +33,22 @@ public struct ThemeColors: Codable, Sendable, Equatable {
             }
         }
 
-        switch level.intensity {
-        case 1: return Color(hex: lowHex)
-        case 2: return Color(hex: mediumHex)
-        case 3: return Color(hex: highHex)
-        case 4: return Color(hex: veryHighHex)
-        default: return colorScheme == .light ? Color(hex: "#EFF2F5") : Color(hex: "#2C2C2C")
+        if colorScheme == .light {
+            switch level.intensity {
+            case 1: return Color(hex: lowHex)
+            case 2: return Color(hex: mediumHex)
+            case 3: return Color(hex: highHex)
+            case 4: return Color(hex: veryHighHex)
+            default: return Color(hex: "#EFF2F5")
+            }
+        } else {
+            switch level.intensity {
+            case 1: return Color(hex: veryHighHex)
+            case 2: return Color(hex: highHex)
+            case 3: return Color(hex: mediumHex)
+            case 4: return Color(hex: lowHex)
+            default: return Color(hex: "#2C2C2C")
+            }
         }
     }
 
@@ -52,7 +62,11 @@ public struct ThemeColors: Codable, Sendable, Equatable {
 
     public func allColors(for colorScheme: ColorScheme, isWidget: Bool = false) -> [Color] {
         let empty = colorScheme == .light ? Color(hex: "#EFF2F5") : Color(hex: "#2C2C2C")
-        return [empty, Color(hex: lowHex), Color(hex: mediumHex), Color(hex: highHex), Color(hex: veryHighHex)]
+        if colorScheme == .light {
+            return [empty, Color(hex: lowHex), Color(hex: mediumHex), Color(hex: highHex), Color(hex: veryHighHex)]
+        } else {
+            return [empty, Color(hex: veryHighHex), Color(hex: highHex), Color(hex: mediumHex), Color(hex: lowHex)]
+        }
     }
 }
 
