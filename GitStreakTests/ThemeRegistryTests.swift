@@ -63,11 +63,11 @@ final class ThemeRegistryTests: XCTestCase {
         XCTAssertEqual(theme.color(for: .thirdQuartile, colorScheme: .light), Color(hex: theme.highHex))
         XCTAssertEqual(theme.color(for: .fourthQuartile, colorScheme: .light), Color(hex: theme.veryHighHex))
 
-        // Dark mode: GitHub uses explicit high-contrast palette
-        XCTAssertEqual(theme.color(for: .firstQuartile, colorScheme: .dark), Color(hex: "#023A16"))
-        XCTAssertEqual(theme.color(for: .secondQuartile, colorScheme: .dark), Color(hex: "#006D32"))
-        XCTAssertEqual(theme.color(for: .thirdQuartile, colorScheme: .dark), Color(hex: "#26A641"))
-        XCTAssertEqual(theme.color(for: .fourthQuartile, colorScheme: .dark), Color(hex: "#39D353"))
+        // Dark mode: higher activity = lighter color
+        XCTAssertEqual(theme.color(for: .firstQuartile, colorScheme: .dark), Color(hex: theme.veryHighHex))
+        XCTAssertEqual(theme.color(for: .secondQuartile, colorScheme: .dark), Color(hex: theme.highHex))
+        XCTAssertEqual(theme.color(for: .thirdQuartile, colorScheme: .dark), Color(hex: theme.mediumHex))
+        XCTAssertEqual(theme.color(for: .fourthQuartile, colorScheme: .dark), Color(hex: theme.lowHex))
 
         // Swatch lists reflect the scheme order
         let lightColors = theme.allColors(for: .light)
@@ -82,10 +82,10 @@ final class ThemeRegistryTests: XCTestCase {
         let darkColors = theme.allColors(for: .dark)
         XCTAssertEqual(darkColors, [
             Color(hex: "#2C2C2C"),
-            Color(hex: "#023A16"),
-            Color(hex: "#006D32"),
-            Color(hex: "#26A641"),
-            Color(hex: "#39D353")
+            Color(hex: theme.veryHighHex),
+            Color(hex: theme.highHex),
+            Color(hex: theme.mediumHex),
+            Color(hex: theme.lowHex)
         ])
     }
 }
