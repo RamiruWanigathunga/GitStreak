@@ -55,7 +55,7 @@ public struct ThemeColors: Codable, Sendable, Equatable {
             if colorScheme == .light {
                 return Color(hex: "#EFF2F5")
             } else {
-                return isWidget ? Color(hex: darkNoneHex ?? noneHex) : Color(hex: "#2C2C2C")
+                return Color(hex: "#2C2C2C")
             }
         }
 
@@ -73,7 +73,7 @@ public struct ThemeColors: Codable, Sendable, Equatable {
             case 2: return Color(hex: darkMediumHex ?? highHex)
             case 3: return Color(hex: darkHighHex ?? mediumHex)
             case 4: return Color(hex: darkVeryHighHex ?? lowHex)
-            default: return isWidget ? Color(hex: darkNoneHex ?? noneHex) : Color(hex: "#2C2C2C")
+            default: return Color(hex: "#2C2C2C")
             }
         }
     }
@@ -89,7 +89,7 @@ public struct ThemeColors: Codable, Sendable, Equatable {
     public func allColors(for colorScheme: ColorScheme, isWidget: Bool = false) -> [Color] {
         let empty = colorScheme == .light
             ? Color(hex: "#EFF2F5")
-            : (isWidget ? Color(hex: darkNoneHex ?? noneHex) : Color(hex: "#2C2C2C"))
+            : Color(hex: "#2C2C2C")
         if colorScheme == .light {
             return [empty, Color(hex: lowHex), Color(hex: mediumHex), Color(hex: highHex), Color(hex: veryHighHex)]
         } else {
@@ -108,7 +108,7 @@ public enum ThemeRegistry {
     public static let github = ThemeColors(
         id: "github", name: "GitHub", description: "The classic GitHub green.", isPro: false,
         noneHex: "#151B23", lowHex: "#9be9a8", mediumHex: "#40c463", highHex: "#30a14e", veryHighHex: "#216e39",
-        darkNoneHex: "#151B23", darkLowHex: "#023A16", darkMediumHex: "#006D32", darkHighHex: "#26A641", darkVeryHighHex: "#39D353"
+        darkLowHex: "#023A16", darkMediumHex: "#006D32", darkHighHex: "#26A641", darkVeryHighHex: "#39D353"
     )
     public static let ocean = ThemeColors(
         id: "ocean", name: "Ocean", description: "Cool blues.", isPro: false,
