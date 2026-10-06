@@ -55,7 +55,7 @@ public struct ThemeColors: Codable, Sendable, Equatable {
             if colorScheme == .light {
                 return Color(hex: "#EFF2F5")
             } else {
-                return Color(hex: "#2C2C2C")
+                return Color(hex: "#222222")
             }
         }
 
@@ -73,7 +73,7 @@ public struct ThemeColors: Codable, Sendable, Equatable {
             case 2: return Color(hex: darkMediumHex ?? highHex)
             case 3: return Color(hex: darkHighHex ?? mediumHex)
             case 4: return Color(hex: darkVeryHighHex ?? lowHex)
-            default: return Color(hex: "#2C2C2C")
+            default: return Color(hex: "#222222")
             }
         }
     }
@@ -89,7 +89,7 @@ public struct ThemeColors: Codable, Sendable, Equatable {
     public func allColors(for colorScheme: ColorScheme, isWidget: Bool = false) -> [Color] {
         let empty = colorScheme == .light
             ? Color(hex: "#EFF2F5")
-            : Color(hex: "#2C2C2C")
+            : Color(hex: "#222222")
         if colorScheme == .light {
             return [empty, Color(hex: lowHex), Color(hex: mediumHex), Color(hex: highHex), Color(hex: veryHighHex)]
         } else {
