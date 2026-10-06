@@ -32,7 +32,7 @@ struct SmallWidgetView: View {
                                 cellSize: 15.0,
                                 columnSpacing: 4.5,
                                 rowSpacing: 4.0,
-                                cornerRadius: 1.5,
+                                cornerRadius: 2.0,
                                 showTooltips: true,
                                 isWidget: true
                             )

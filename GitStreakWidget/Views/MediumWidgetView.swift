@@ -28,11 +28,11 @@ struct MediumWidgetView: View {
                             ContributionGridView(
                                 weeks: data.weeks,
                                 theme: entry.theme,
-                                maxWeeks: 17,
-                                cellSize: 14.5,
-                                columnSpacing: 3.5,
-                                rowSpacing: 3.0,
-                                cornerRadius: 1.5,
+                                maxWeeks: 16,
+                                cellSize: 15.5,
+                                columnSpacing: 4.25,
+                                rowSpacing: 3.9,
+                                cornerRadius: 2.0,
                                 showTooltips: false,
                                 isWidget: true
                             )
