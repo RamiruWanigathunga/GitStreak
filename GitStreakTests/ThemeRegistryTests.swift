@@ -50,7 +50,7 @@ final class ThemeRegistryTests: XCTestCase {
 
     func testDarkModeWidgetEmptyBlockColor() {
         let theme = ThemeRegistry.github
-        let expectedDarkWidgetColor = Color(hex: "#2C2C2C")
+        let expectedDarkWidgetColor = Color(hex: "#3A3A3C")
         XCTAssertEqual(theme.color(for: .none, colorScheme: .dark, isWidget: true), expectedDarkWidgetColor)
     }
 
@@ -81,7 +81,7 @@ final class ThemeRegistryTests: XCTestCase {
 
         let darkColors = theme.allColors(for: .dark)
         XCTAssertEqual(darkColors, [
-            Color(hex: "#2C2C2C"),
+            Color(hex: "#3A3A3C"),
             Color(hex: theme.veryHighHex),
             Color(hex: theme.highHex),
             Color(hex: theme.mediumHex),

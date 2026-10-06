@@ -12,7 +12,28 @@ public struct ThemeColors: Codable, Sendable, Equatable {
     public let highHex: String
     public let veryHighHex: String
 
-    public init(id: String, name: String, description: String, isPro: Bool, noneHex: String, lowHex: String, mediumHex: String, highHex: String, veryHighHex: String) {
+    public let darkNoneHex: String?
+    public let darkLowHex: String?
+    public let darkMediumHex: String?
+    public let darkHighHex: String?
+    public let darkVeryHighHex: String?
+
+    public init(
+        id: String,
+        name: String,
+        description: String,
+        isPro: Bool,
+        noneHex: String,
+        lowHex: String,
+        mediumHex: String,
+        highHex: String,
+        veryHighHex: String,
+        darkNoneHex: String? = nil,
+        darkLowHex: String? = nil,
+        darkMediumHex: String? = nil,
+        darkHighHex: String? = nil,
+        darkVeryHighHex: String? = nil
+    ) {
         self.id = id
         self.name = name
         self.description = description
@@ -22,6 +43,11 @@ public struct ThemeColors: Codable, Sendable, Equatable {
         self.mediumHex = mediumHex
         self.highHex = highHex
         self.veryHighHex = veryHighHex
+        self.darkNoneHex = darkNoneHex
+        self.darkLowHex = darkLowHex
+        self.darkMediumHex = darkMediumHex
+        self.darkHighHex = darkHighHex
+        self.darkVeryHighHex = darkVeryHighHex
     }
 
     public func color(for level: ContributionLevel, colorScheme: ColorScheme = .dark, isWidget: Bool = false) -> Color {
@@ -29,7 +55,7 @@ public struct ThemeColors: Codable, Sendable, Equatable {
             if colorScheme == .light {
                 return Color(hex: "#EFF2F5")
             } else {
-                return Color(hex: "#2C2C2C")
+                return Color(hex: "#3A3A3C")
             }
         }
 
@@ -43,11 +69,11 @@ public struct ThemeColors: Codable, Sendable, Equatable {
             }
         } else {
             switch level.intensity {
-            case 1: return Color(hex: veryHighHex)
-            case 2: return Color(hex: highHex)
-            case 3: return Color(hex: mediumHex)
-            case 4: return Color(hex: lowHex)
-            default: return Color(hex: "#2C2C2C")
+            case 1: return Color(hex: darkLowHex ?? veryHighHex)
+            case 2: return Color(hex: darkMediumHex ?? highHex)
+            case 3: return Color(hex: darkHighHex ?? mediumHex)
+            case 4: return Color(hex: darkVeryHighHex ?? lowHex)
+            default: return Color(hex: "#3A3A3C")
             }
         }
     }
@@ -61,11 +87,19 @@ public struct ThemeColors: Codable, Sendable, Equatable {
     }
 
     public func allColors(for colorScheme: ColorScheme, isWidget: Bool = false) -> [Color] {
-        let empty = colorScheme == .light ? Color(hex: "#EFF2F5") : Color(hex: "#2C2C2C")
+        let empty = colorScheme == .light
+            ? Color(hex: "#EFF2F5")
+            : Color(hex: "#3A3A3C")
         if colorScheme == .light {
             return [empty, Color(hex: lowHex), Color(hex: mediumHex), Color(hex: highHex), Color(hex: veryHighHex)]
         } else {
-            return [empty, Color(hex: veryHighHex), Color(hex: highHex), Color(hex: mediumHex), Color(hex: lowHex)]
+            return [
+                empty,
+                Color(hex: darkLowHex ?? veryHighHex),
+                Color(hex: darkMediumHex ?? highHex),
+                Color(hex: darkHighHex ?? mediumHex),
+                Color(hex: darkVeryHighHex ?? lowHex)
+            ]
         }
     }
 }
@@ -73,7 +107,8 @@ public struct ThemeColors: Codable, Sendable, Equatable {
 public enum ThemeRegistry {
     public static let github = ThemeColors(
         id: "github", name: "GitHub", description: "The classic GitHub green.", isPro: false,
-        noneHex: "#151B23", lowHex: "#9be9a8", mediumHex: "#40c463", highHex: "#30a14e", veryHighHex: "#216e39"
+        noneHex: "#151B23", lowHex: "#9be9a8", mediumHex: "#40c463", highHex: "#30a14e", veryHighHex: "#216e39",
+        darkLowHex: "#023A16", darkMediumHex: "#006D32", darkHighHex: "#26A641", darkVeryHighHex: "#39D353"
     )
     public static let ocean = ThemeColors(
         id: "ocean", name: "Ocean", description: "Cool blues.", isPro: false,
