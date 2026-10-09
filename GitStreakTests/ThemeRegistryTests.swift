@@ -63,11 +63,15 @@ final class ThemeRegistryTests: XCTestCase {
         XCTAssertEqual(theme.color(for: .thirdQuartile, colorScheme: .light), Color(hex: theme.highHex))
         XCTAssertEqual(theme.color(for: .fourthQuartile, colorScheme: .light), Color(hex: theme.veryHighHex))
 
-        // Dark mode: higher activity = lighter color
-        XCTAssertEqual(theme.color(for: .firstQuartile, colorScheme: .dark), Color(hex: theme.veryHighHex))
-        XCTAssertEqual(theme.color(for: .secondQuartile, colorScheme: .dark), Color(hex: theme.highHex))
-        XCTAssertEqual(theme.color(for: .thirdQuartile, colorScheme: .dark), Color(hex: theme.mediumHex))
-        XCTAssertEqual(theme.color(for: .fourthQuartile, colorScheme: .dark), Color(hex: theme.lowHex))
+        // Dark mode: higher activity = lighter color (uses explicit dark palette when provided)
+        let expectedDarkFirst = Color(hex: theme.darkLowHex ?? theme.veryHighHex)
+        let expectedDarkSecond = Color(hex: theme.darkMediumHex ?? theme.highHex)
+        let expectedDarkThird = Color(hex: theme.darkHighHex ?? theme.mediumHex)
+        let expectedDarkFourth = Color(hex: theme.darkVeryHighHex ?? theme.lowHex)
+        XCTAssertEqual(theme.color(for: .firstQuartile, colorScheme: .dark), expectedDarkFirst)
+        XCTAssertEqual(theme.color(for: .secondQuartile, colorScheme: .dark), expectedDarkSecond)
+        XCTAssertEqual(theme.color(for: .thirdQuartile, colorScheme: .dark), expectedDarkThird)
+        XCTAssertEqual(theme.color(for: .fourthQuartile, colorScheme: .dark), expectedDarkFourth)
 
         // Swatch lists reflect the scheme order
         let lightColors = theme.allColors(for: .light)
@@ -82,10 +86,10 @@ final class ThemeRegistryTests: XCTestCase {
         let darkColors = theme.allColors(for: .dark)
         XCTAssertEqual(darkColors, [
             Color(hex: "#3A3A3C"),
-            Color(hex: theme.veryHighHex),
-            Color(hex: theme.highHex),
-            Color(hex: theme.mediumHex),
-            Color(hex: theme.lowHex)
+            expectedDarkFirst,
+            expectedDarkSecond,
+            expectedDarkThird,
+            expectedDarkFourth
         ])
     }
 }
