@@ -200,18 +200,12 @@ struct DashboardView: View {
                             HStack(alignment: .top, spacing: 14) {
                                 VStack(alignment: .leading, spacing: 10) {
                                     HStack(alignment: .top, spacing: 8) {
-                                        VStack(alignment: .leading, spacing: 2) {
-                                            Spacer().frame(height: 14)
-                                            Text(" ").font(.system(size: 8))
-                                            Text("M").font(GSTypography.monoBadge).foregroundColor(.secondary)
-                                            Text(" ").font(.system(size: 8))
-                                            Text("W").font(GSTypography.monoBadge).foregroundColor(.secondary)
-                                            Text(" ").font(.system(size: 8))
-                                            Text("F").font(GSTypography.monoBadge).foregroundColor(.secondary)
-                                            Text(" ").font(.system(size: 8))
-                                        }
-
-                                        Spacer(minLength: 0)
+                                        ContributionDayLabelsView(
+                                            cellSize: 13.5,
+                                            rowSpacing: 3.0,
+                                            showMonthHeaders: true
+                                        )
+                                        .padding(.vertical, 8)
 
                                         ScrollView(.horizontal, showsIndicators: false) {
                                             ContributionGridView(

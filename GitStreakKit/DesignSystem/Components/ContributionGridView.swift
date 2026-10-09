@@ -11,6 +11,7 @@ public struct ContributionGridView: View {
     public let rowSpacing: CGFloat?
     public let cornerRadius: CGFloat?
     public let showMonthHeaders: Bool
+    public let showDayLabels: Bool
     public let showTooltips: Bool
     public let isWidget: Bool
 
@@ -24,6 +25,7 @@ public struct ContributionGridView: View {
         rowSpacing: CGFloat? = nil,
         cornerRadius: CGFloat? = nil,
         showMonthHeaders: Bool = false,
+        showDayLabels: Bool = false,
         showTooltips: Bool = false,
         isWidget: Bool = false
     ) {
@@ -36,6 +38,7 @@ public struct ContributionGridView: View {
         self.rowSpacing = rowSpacing
         self.cornerRadius = cornerRadius
         self.showMonthHeaders = showMonthHeaders
+        self.showDayLabels = showDayLabels
         self.showTooltips = showTooltips
         self.isWidget = isWidget
     }
@@ -46,6 +49,14 @@ public struct ContributionGridView: View {
         let rSpacing = rowSpacing ?? cellSpacing
 
         HStack(spacing: colSpacing) {
+            if showDayLabels {
+                ContributionDayLabelsView(
+                    cellSize: cellSize,
+                    rowSpacing: rSpacing,
+                    showMonthHeaders: showMonthHeaders
+                )
+            }
+
             ForEach(Array(displayWeeks.enumerated()), id: \.offset) { weekIdx, week in
                 ContributionWeekColumnView(
                     week: week,
@@ -257,3 +268,72 @@ private struct ContributionGridCellView: View {
             }
     }
 }
+
+public struct ContributionDayLabelsView: View {
+    public let cellSize: CGFloat
+    public let rowSpacing: CGFloat
+    public let showMonthHeaders: Bool
+    public let monthHeaderHeight: CGFloat
+    public let font: Font
+    public let textColor: Color
+
+    public init(
+        cellSize: CGFloat = GSSpacing.gridCellSize,
+        rowSpacing: CGFloat = GSSpacing.gridCellSpacing,
+        showMonthHeaders: Bool = true,
+        monthHeaderHeight: CGFloat = 14,
+        font: Font = GSTypography.monoBadge,
+        textColor: Color = .secondary
+    ) {
+        self.cellSize = cellSize
+        self.rowSpacing = rowSpacing
+        self.showMonthHeaders = showMonthHeaders
+        self.monthHeaderHeight = monthHeaderHeight
+        self.font = font
+        self.textColor = textColor
+    }
+
+    /// Days of the week in standard contribution calendar order starting from Sunday:
+    /// Row 0 (index 0): Sunday -> hidden / blank
+    /// Row 1 (index 1): Monday -> "M"
+    /// Row 2 (index 2): Tuesday -> hidden / blank
+    /// Row 3 (index 3): Wednesday -> "W"
+    /// Row 4 (index 4): Thursday -> hidden / blank
+    /// Row 5 (index 5): Friday -> "F"
+    /// Row 6 (index 6): Saturday -> hidden / blank
+    public static let dayLabels: [String?] = [
+        nil,  // Sunday (Row 0)
+        "M",  // Monday (Row 1)
+        nil,  // Tuesday (Row 2)
+        "W",  // Wednesday (Row 3)
+        nil,  // Thursday (Row 4)
+        "F",  // Friday (Row 5)
+        nil   // Saturday (Row 6)
+    ]
+
+    public var body: some View {
+        VStack(alignment: .leading, spacing: rowSpacing) {
+            if showMonthHeaders {
+                Text(" ")
+                    .font(font)
+                    .frame(height: monthHeaderHeight)
+                    .hidden()
+            }
+
+            ForEach(0..<7, id: \.self) { dayIndex in
+                if let label = Self.dayLabels[dayIndex] {
+                    Text(label)
+                        .font(font)
+                        .foregroundColor(textColor)
+                        .frame(height: cellSize)
+                } else {
+                    Text(" ")
+                        .font(font)
+                        .frame(height: cellSize)
+                        .hidden()
+                }
+            }
+        }
+    }
+}
+
