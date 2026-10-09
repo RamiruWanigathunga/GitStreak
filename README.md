@@ -10,9 +10,6 @@ A native macOS application & WidgetKit engine bringing your GitHub contribution 
 <br/>
 <br/>
 
-> ⭐ **If you find GitStreak helpful, please star the repository to support development and help others discover it!** ⭐
-
-
 <br/>
 </div>
 
