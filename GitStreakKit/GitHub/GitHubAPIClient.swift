@@ -62,7 +62,7 @@ public actor GitHubAPIClient {
         request.setValue("GitStreak", forHTTPHeaderField: "User-Agent")
         request.setValue("no-cache", forHTTPHeaderField: "Cache-Control")
 
-        request.httpBody = GitHubGraphQL.makeRequestBody(username: username, year: year)
+        request.httpBody = try GitHubGraphQL.makeRequestBody(username: username, year: year)
 
         let data: Data
         let response: URLResponse

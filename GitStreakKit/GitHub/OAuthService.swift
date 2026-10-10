@@ -67,7 +67,7 @@ public final class OAuthService: @unchecked Sendable {
     public static let shared = OAuthService()
 
     public static let clientID = "Ov23lidbeTr3oc4Fy82o"
-    public static let defaultScopes = "read:user,repo"
+    public static let defaultScopes = "read:user,user:email"
 
     private init() {}
 

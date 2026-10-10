@@ -42,7 +42,7 @@ public struct GitHubGraphQL {
         """
     }
 
-    public static func makeRequestBody(username: String, year: Int? = nil) -> Data {
+    public static func makeRequestBody(username: String, year: Int? = nil) throws -> Data {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime]
         formatter.timeZone = TimeZone(identifier: "UTC")
@@ -83,6 +83,6 @@ public struct GitHubGraphQL {
                 "to": formatter.string(from: toDate)
             ]
         ]
-        return try! JSONSerialization.data(withJSONObject: payload, options: [])
+        return try JSONSerialization.data(withJSONObject: payload, options: [])
     }
 }

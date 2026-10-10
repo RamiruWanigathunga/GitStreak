@@ -30,13 +30,13 @@ public enum TokenStorage {
         groupDefaults.set(cleanToken, forKey: tokenKey)
         groupDefaults.synchronize()
 
-        // 3. Save to Shared Container File (Backup storage that survives app updates & binary swaps)
-        if let data = cleanToken.data(using: .utf8) {
-            try? data.write(to: tokenFileURL, options: .atomic)
+        // Clean up any legacy plaintext token file if it exists
+        if FileManager.default.fileExists(atPath: tokenFileURL.path) {
+            try? FileManager.default.removeItem(at: tokenFileURL)
         }
     }
 
-    /// Loads the stored GitHub access token with self-healing automatic sync across all 3 storage layers.
+    /// Loads the stored GitHub access token with self-healing automatic sync.
     /// - Returns: The access token string, or `nil` if none exists.
     public static func loadToken() -> String? {
         lock.lock()
@@ -58,27 +58,28 @@ public enum TokenStorage {
             foundToken = token.trimmingCharacters(in: .whitespacesAndNewlines)
         }
 
-        // 3. Try Shared Container File Fallback
+        // 3. Try Legacy Shared Container File Fallback (migrate and remove)
         if foundToken == nil,
            FileManager.default.fileExists(atPath: tokenFileURL.path),
            let data = try? Data(contentsOf: tokenFileURL),
            let rawToken = String(data: data, encoding: .utf8),
            !rawToken.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             foundToken = rawToken.trimmingCharacters(in: .whitespacesAndNewlines)
+            try? FileManager.default.removeItem(at: tokenFileURL)
         }
 
-        // Self-Healing Sync: If token was recovered from fallback layers, re-populate all layers
+        // Self-Healing Sync: If token was recovered from fallback layers, re-populate Keychain & Group Defaults
         if let token = foundToken {
             lock.lock()
             inMemoryCache = token
             lock.unlock()
 
-            // Silently ensure all storage layers stay in sync
+            // Silently ensure secure storage layers stay in sync
             try? KeychainService.save(token: token, forKey: tokenKey)
             groupDefaults.set(token, forKey: tokenKey)
             groupDefaults.synchronize()
-            if let data = token.data(using: .utf8) {
-                try? data.write(to: tokenFileURL, options: .atomic)
+            if FileManager.default.fileExists(atPath: tokenFileURL.path) {
+                try? FileManager.default.removeItem(at: tokenFileURL)
             }
         }
 
